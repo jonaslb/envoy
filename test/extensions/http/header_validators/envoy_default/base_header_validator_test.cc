@@ -42,10 +42,12 @@ TEST_F(BaseHeaderValidatorTest, ValidateMethodPermissive) {
 
 TEST_F(BaseHeaderValidatorTest, ValidateMethodRestricted) {
   HeaderString valid{"GET"};
+  HeaderString query{"QUERY"};
   HeaderString post_lowercase{"post"};
   HeaderString custom{"CUSTOM-METHOD"};
   auto uhv = createBase(restrict_http_methods_config);
   EXPECT_ACCEPT(uhv->validateMethodHeader(valid));
+  EXPECT_ACCEPT(uhv->validateMethodHeader(query));
   EXPECT_REJECT_WITH_DETAILS(uhv->validateMethodHeader(custom),
                              UhvResponseCodeDetail::get().InvalidMethod);
   EXPECT_REJECT_WITH_DETAILS(uhv->validateMethodHeader(post_lowercase),

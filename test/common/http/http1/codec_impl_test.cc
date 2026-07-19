@@ -1290,6 +1290,26 @@ TEST_F(Http1ServerConnectionImplTest, RejectCustomMethod) {
   EXPECT_EQ(status.message(), "http/1.1 protocol error: HPE_INVALID_METHOD");
 }
 
+TEST_F(Http1ServerConnectionImplTest, AllowQueryMethod) {
+  initialize();
+
+  MockRequestDecoder decoder;
+  setupRequestDecoderMock(decoder);
+  EXPECT_CALL(callbacks_, newStream(_, _)).WillOnce(ReturnRef(decoder));
+
+  Buffer::OwnedImpl buffer("QUERY / HTTP/1.1\r\n");
+  auto status = codec_->dispatch(buffer);
+  ASSERT_TRUE(status.ok());
+
+  TestRequestHeaderMapImpl expected_headers{
+      {":authority", "example.com"}, {":path", "/"}, {":method", "QUERY"}};
+  EXPECT_CALL(decoder, decodeHeaders_(HeaderMapEqual(&expected_headers), true));
+
+  Buffer::OwnedImpl headers("host: example.com\r\n\r\n");
+  status = codec_->dispatch(headers);
+  EXPECT_TRUE(status.ok());
+}
+
 TEST_F(Http1ServerConnectionImplTest, RejectInvalidCharacterInMethod) {
   codec_settings_.allow_custom_methods_ = true;
   initialize();

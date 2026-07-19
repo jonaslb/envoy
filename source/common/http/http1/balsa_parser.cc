@@ -66,11 +66,11 @@ bool isMethodValid(absl::string_view method, bool allow_custom_methods) {
   }
 
   static constexpr absl::string_view kValidMethods[] = {
-      "ACL",       "BIND",    "CHECKOUT", "CONNECT", "COPY",       "DELETE",     "GET",
-      "HEAD",      "LINK",    "LOCK",     "MERGE",   "MKACTIVITY", "MKCALENDAR", "MKCOL",
-      "MOVE",      "MSEARCH", "NOTIFY",   "OPTIONS", "PATCH",      "POST",       "PROPFIND",
-      "PROPPATCH", "PURGE",   "PUT",      "REBIND",  "REPORT",     "SEARCH",     "SOURCE",
-      "SUBSCRIBE", "TRACE",   "UNBIND",   "UNLINK",  "UNLOCK",     "UNSUBSCRIBE"};
+      "ACL",       "BIND",      "CHECKOUT", "CONNECT", "COPY",       "DELETE",     "GET",
+      "HEAD",      "LINK",      "LOCK",     "MERGE",   "MKACTIVITY", "MKCALENDAR", "MKCOL",
+      "MOVE",      "MSEARCH",   "NOTIFY",   "OPTIONS", "PATCH",      "POST",       "PROPFIND",
+      "PROPPATCH", "PURGE",     "PUT",      "QUERY",   "REBIND",     "REPORT",     "SEARCH",
+      "SOURCE",    "SUBSCRIBE", "TRACE",    "UNBIND",  "UNLINK",     "UNLOCK",     "UNSUBSCRIBE"};
 
   const auto* begin = &kValidMethods[0];
   const auto* end = &kValidMethods[ABSL_ARRAYSIZE(kValidMethods) - 1] + 1;
